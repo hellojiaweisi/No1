@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<!--
+ | This is the configuration file for Maven. It can be specified at two levels:
+ |
+ |  1. User Level. This settings.xml file provides configuration for a single user,
+ |                 and is normally provided in ${user.home}/.m2/settings.xml.
+ |
+ |                 NOTE: This location can be overridden with the CLI option:
+ |
+ |                 -s /path/to/user/settings.xml
+ |
+ |  2. Global Level. This settings.xml file provides configuration for all Maven
+ |                 users on a machine (assuming they're all using the same Maven
+ |                 installation). It's normally provided in
+ |                 ${maven.conf}/settings.xml.
+ |
+ |                 NOTE: This location can be overridden with the CLI option:
+ |
+ |                 -gs /path/to/global/settings.xml
+ |
+ | The sections in this sample file are intended to give you a running start at
+ | getting the most out of your Maven installation. Where appropriate, the default
+ | values (values used when the setting is not specified) are provided.
+ |
+ |-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+  <!--本地仓库地址-->
+  <localRepository>D:/repository</localRepository>
+<!--2.pluginGroups:插件组合
+    3.proxies:代理
+    4.servers服务器(其中username和password是私服的用户名和密码，后续配置私服说明)
+	<server>
+	<id>releases</id>
+	<username>admin</username>
+	<password>admin123</password>
+	</server>
+	<server>
+	<id>snapshots</id>
+	<username>admin</username>
+	<password>admin123</password>
+	</server>-->
+    <!--5.mirrors:镜像路径-->
+       <!-- 阿里镜像 -->
+	   <mirrors>
+         <mirror>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/central/</url>
+             <!--表示该镜像是是 id 为central的仓库的镜像, central 默认是中央仓库,也就是从中央仓库下载的时候会被拦截到该地址-->
+            <mirrorOf>central</mirrorOf>        
+    	</mirror>
+		</mirrors>
+    <!--6.profiles:服务器配置-->
+     <!--服务器的配置
+        <profile>
+            <id>nexusProfile</id>
+            <repositories>
+                <repository>-->
+                    <!--配置一个 id 为 nexus 的仓库
+                    <id>nexus</id>
+                    <name>nexus</name>
+                    <url>http://localhost:8081/nexus/content/groups/public/</url>-->
+                    <!--会从该仓库下载正式和快照版本的依赖
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+             <pluginRepositories>  -->
+                  <!-- 插件仓库，maven的运行依赖插件，也需要从私服下载插件
+                  <pluginRepository>   -->
+                        <!-- 插件仓库的id不允许重复，如果重复后边配置会覆盖前边 
+                        <id>public</id>  
+                        <name>Public Repositories</name>  
+                        <url>http://localhost:8081/nexus/content/groups/public/</url>  
+                  </pluginRepository>  
+              </pluginRepositories>  
+        </profile>-->
+	<!-- java编译插件，配jdk的编译版本-->
+        <profile>    
+              <id>jdk-1.8</id>    
+              <activation>    
+                    <activeByDefault>true</activeByDefault>    
+                   <jdk>1.8</jdk>    
+                </activation>    
+                <properties>    
+                    <maven.compiler.source>1.8</maven.compiler.source>    
+                    <maven.compiler.target>1.8</maven.compiler.target>    
+                    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>    
+              </properties>    
+         </profile> 
+    <!--7.activeProfiles:激活私服 
+              <activeProfiles>
+                  <activeProfile>nexusProfile</activeProfile>
+              </activeProfiles>-->
+</settings>
